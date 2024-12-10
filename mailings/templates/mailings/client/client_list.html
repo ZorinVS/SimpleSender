@@ -1,0 +1,52 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Список клиентов{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+
+<h1 class="mb-4 text-center">Мои клиенты</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a href="{% url 'mailings:client_create' %}" class="btn btn-primary">Добавить клиента</a>
+    <a href="{% url 'mailings:client_upload' %}" class="btn btn-outline-primary">Загрузить из Excel</a>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+    <tr>
+        <th>ФИО</th>
+        <th>Электронная почта</th>
+        <th>Комментарий</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not client_list %}
+    <tr>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+    </tr>
+    {% endif %}
+    {% for client in client_list %}
+    <tr>
+        <td>
+            <a href="{% url 'mailings:client_detail' client.pk %}" class="text-decoration-none text-reset">
+                {{ client.surname }} {{ client.first_name }} {{ client.patronymic }}
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'mailings:client_detail' client.pk %}" class="text-decoration-none text-reset">
+                {{ client.email }}
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'mailings:client_detail' client.pk %}" class="text-decoration-none text-reset">
+                {% if client.comment %}{{ client.comment }}{% else %}—{% endif %}
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

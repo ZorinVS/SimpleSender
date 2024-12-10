@@ -1,0 +1,30 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Просмотр клиента{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<h1 class="mb-4">Информация о клиенте</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">ФИО</h5>
+        <p class="card-text">{{ client.surname }} {{ client.first_name }} {{ client.patronymic }}</p>
+
+        <h5 class="card-title">Электронная почта</h5>
+        <p class="card-text"><a href="mailto:{{ client.email }}">{{ client.email }}</a></p>
+
+        {% if client.comment %}
+        <h5 class="card-title">Комментарий</h5>
+        <p class="card-text">{{ client.comment }}</p>
+        {% endif %}
+    </div>
+    <div class="card-footer text-center">
+        <a class="btn btn-primary me-2" href="{% url 'mailings:client_update' client.pk %}">Редактировать</a>
+        <a class="btn btn-danger" href="{% url 'mailings:client_delete' client.pk %}">Удалить</a>
+    </div>
+</div>
+
+<div class="mt-4 text-center">
+    <a class="btn btn-outline-secondary" href="{% url 'mailings:client_list' %}">Вернуться к списку</a>
+</div>
+{% endblock %}

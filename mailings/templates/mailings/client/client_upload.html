@@ -1,0 +1,19 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Загрузка клиентов{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<h1 class="mb-4">Загрузка клиентов из Excel</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Загрузить</button>
+</form>
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li class="alert {{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

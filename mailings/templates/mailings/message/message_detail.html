@@ -1,0 +1,24 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Просмотр сообщения{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<h1 class="mb-4">Просмотр сообщения</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">
+        <h5 class="card-title mb-0">{{ message.subject }}</h5>
+    </div>
+    <div class="card-body">
+         <p class="card-text">{{ message.body }}</p>
+    </div>
+    <div class="card-footer text-center">
+        <a class="btn btn-primary me-2" href="{% url 'mailings:message_update' message.pk %}">Редактировать</a>
+        <a class="btn btn-danger" href="{% url 'mailings:message_delete' message.pk %}">Удалить</a>
+    </div>
+</div>
+
+<div class="mt-4 text-center">
+    <a class="btn btn-outline-secondary" href="{% url 'mailings:message_list' %}">Вернуться к списку</a>
+</div>
+{% endblock %}

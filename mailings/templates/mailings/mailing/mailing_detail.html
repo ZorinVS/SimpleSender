@@ -1,0 +1,50 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Детали рассылки{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<h1 class="mb-4">Детали рассылки</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Тема сообщения</h5>
+        <p class="card-text">{{ mailing.message.subject }}</p>
+
+        <h5 class="card-title">Статус рассылки</h5>
+        <p class="card-text">{{ mailing.get_status_display }}</p>
+
+        <h5 class="card-title">Дата и время начала</h5>
+        <p class="card-text">
+            {% if mailing.start_datetime %}
+            {{ mailing.start_datetime|date:"d.m.Y H:i" }}
+            {% else %}
+            Не назначено
+            {% endif %}
+        </p>
+
+        <h5 class="card-title">Дата и время окончания</h5>
+        <p class="card-text">
+            {% if mailing.end_datetime %}
+            {{ mailing.end_datetime|date:"d.m.Y H:i" }}
+            {% else %}
+            Не завершено
+            {% endif %}
+        </p>
+
+        <h5 class="card-title">Получатели</h5>
+        <ul>
+            {% for client in mailing.clients.all %}
+            <li>{{ client.first_name }} {{ client.last_name }}: {{ client.email }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card-footer text-center">
+        <a class="btn btn-primary me-2" href="{% url 'mailings:mailing_update' mailing.pk %}">Редактировать</a>
+        <a class="btn btn-danger" href="{% url 'mailings:mailing_delete' mailing.pk %}">Удалить</a>
+    </div>
+</div>
+
+<div class="mt-4 text-center">
+    <a class="btn btn-outline-secondary" href="{% url 'mailings:mailing_list' %}">Вернуться к списку</a>
+</div>
+{% endblock %}
