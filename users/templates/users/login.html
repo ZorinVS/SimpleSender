@@ -1,0 +1,30 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Login · simpleSENDER{% endblock %}
+
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Форма аутентификации</h1>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="action" value="save" class="btn btn-outline-dark">Войти</button>
+</form>
+
+<div class="mt-3">
+    <a href="{% url 'users:password_reset' %}" class="text-decoration-none text-reset">Забыли пароль?</a>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+{% block content %}
+
+<h1 class="mb-4">Попытки рассылок</h1>
+
+{% for stat in statistics%}
+<div class="mb-4">
+    {% if perms.mailings.view_all_messages %}
+    <a href="{% url 'users:user_detail' stat.pk %}" class="text-decoration-none text-reset">{{ stat.email }}</a>
+    {% endif %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p class="card-text">
+                <b>Количество отправленных сообщений: </b>
+                {{ stat.message_count }}
+            </p>
+
+            <p class="card-text">
+                <b>Количество успешных попыток рассылок: </b>
+                {{ stat.successful_mailing_attempts }}
+            </p>
+
+            <p class="card-text">
+                <b>Количество неуспешных попыток рассылок: </b>
+                {{ stat.unsuccessful_mailing_attempts }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends "mailings/base.html" %}
 
-{% block title %}Загрузка клиентов{% endblock %}
-{% block header %}{% endblock %}
+{% block title %}Загрузка клиентов · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
 {% block content %}
 <h1 class="mb-4">Загрузка клиентов из Excel</h1>
 <form method="post" enctype="multipart/form-data">

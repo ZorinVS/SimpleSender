@@ -20,9 +20,11 @@ from mailings.apps import MailingsConfig
 app_name = MailingsConfig.name
 
 urlpatterns = [
+    path("", views.IndexView.as_view(), name="index_page"),
+    path("mailings-attempts/", views.UserAttemptsView.as_view(), name="user_attempts"),
+
     path("clients/", views.ClientListView.as_view(), name="client_list"),
     path("clients/add/", views.ClientCreateView.as_view(), name="client_create"),
-    path("clients/excel_upload/", views.ClientUploadView.as_view(), name="client_upload"),
     path("clients/<int:pk>/delete/", views.ClientDeleteView.as_view(), name="client_delete"),
     path("clients/<int:pk>/edit/", views.ClientUpdateView.as_view(), name="client_update"),
     path("clients/<int:pk>/", views.ClientDetailView.as_view(), name="client_detail"),
@@ -37,5 +39,11 @@ urlpatterns = [
     path("mailings/add/", views.MailingCreateView.as_view(), name="mailing_create"),
     path("mailings/<int:pk>/delete/", views.MailingDeleteView.as_view(), name="mailing_delete"),
     path("mailings/<int:pk>/edit/", views.MailingUpdateView.as_view(), name="mailing_update"),
+    path("mailings/<int:pk>/disable/", views.MailingDisableView.as_view(), name="mailing_disable"),
+    path("mailings/<int:pk>/schedule/", views.MailingScheduleView.as_view(), name="mailing_schedule"),
+    path("mailings/<int:pk>/cancel/", views.MailingCancelView.as_view(), name="mailing_cancel"),
+    path("mailings/<int:pk>/attempts/", views.MailingAttemptsView.as_view(), name="mailing_attempts"),
     path("mailings/<int:pk>/", views.MailingDetailView.as_view(), name="mailing_detail"),
+
+    path("mailings/<int:pk>/send/", views.MailingSendView.as_view(), name="mailing_send"),
 ]

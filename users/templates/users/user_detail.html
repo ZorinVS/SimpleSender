@@ -1,0 +1,51 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Профиль пользователя · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+{% block content %}
+
+{% if not obj_user.is_active %}
+<p class="text-danger text-center fs-4">Пользователь заблокирован</p>
+{% endif %}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-center mb-4">
+        <!-- Аватар -->
+        {% if obj_user.avatar %}
+        <img src="{{ obj_user.avatar.url }}" alt="Аватар" class="rounded-circle me-3" style="width: 120px; height: 120px; object-fit: cover;">
+        {% endif %}
+
+        <!-- Email -->
+        <div>
+            <p class="mb-0">{{ obj_user.email }}</p>
+        </div>
+    </div>
+
+    <!-- Контактная информация -->
+    <div class="card shadow-sm p-3">
+        <h5 class="mb-2">Контактная информация</h5>
+        <p class="mb-1"><b>Телефон:</b> {{ obj_user.phone_number|default:"Не указан" }}</p>
+        <p class="mb-1"><b>Страна:</b> {{ obj_user.country|default:"Не указана" }}</p>
+    </div>
+
+    {% if obj_user.is_active %}
+    <!-- Кнопки действий -->
+    <div class="text-center mt-4">
+        {% if perms.users.block_user and not is_manager %}
+        <form method="post" action="{% url 'users:user_block' obj_user.pk %}" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-dark">Заблокировать</button>
+        </form>
+        {% endif %}
+        {% if request.user == obj_user %}
+        <a class="btn btn-outline-secondary me-2" href="{% url 'users:user_update' obj_user.pk %}">Редактировать профиль</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Кнопка на главную -->
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-secondary" href="{% url 'mailings:index_page' %}">На главную</a>
+    </div>
+</div>
+{% endblock %}

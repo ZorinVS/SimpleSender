@@ -1,15 +1,16 @@
 {% extends "mailings/base.html" %}
 
-{% block title %}Список клиентов{% endblock %}
-{% block header %}{% endblock %}
+{% block title %}Список клиентов · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
 {% block content %}
 
-<h1 class="mb-4 text-center">Мои клиенты</h1>
+<h1 class="mb-4 text-center">{% if perms.mailings.view_all_clients %}Клиенты{% else %}Мои клиенты{% endif %}</h1>
 
+{% if not perms.mailings.view_all_clients %}
 <div class="d-flex justify-content-between mb-3">
-    <a href="{% url 'mailings:client_create' %}" class="btn btn-primary">Добавить клиента</a>
-    <a href="{% url 'mailings:client_upload' %}" class="btn btn-outline-primary">Загрузить из Excel</a>
+    <a href="{% url 'mailings:client_create' %}" class="btn btn-light">Добавить клиента</a>
 </div>
+{% endif %}
 
 <table class="table table-bordered table-hover">
     <thead class="table-light">

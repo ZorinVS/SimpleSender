@@ -1,7 +1,7 @@
 {% extends "mailings/base.html" %}
 
-{% block title %}Просмотр клиента{% endblock %}
-{% block header %}{% endblock %}
+{% block title %}Просмотр клиента · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
 {% block content %}
 <h1 class="mb-4">Информация о клиенте</h1>
 
@@ -18,10 +18,12 @@
         <p class="card-text">{{ client.comment }}</p>
         {% endif %}
     </div>
+    {% if not perms.mailings.view_all_clients %}
     <div class="card-footer text-center">
-        <a class="btn btn-primary me-2" href="{% url 'mailings:client_update' client.pk %}">Редактировать</a>
-        <a class="btn btn-danger" href="{% url 'mailings:client_delete' client.pk %}">Удалить</a>
+        <a class="btn btn-outline-secondary me-2" href="{% url 'mailings:client_update' client.pk %}">Редактировать</a>
+        <a class="btn btn-outline-danger" href="{% url 'mailings:client_delete' client.pk %}">Удалить</a>
     </div>
+    {% endif %}
 </div>
 
 <div class="mt-4 text-center">
