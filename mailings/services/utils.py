@@ -23,7 +23,7 @@ def is_owner(obj, user):
 
 def can_cancel(obj, user):
     """ Проверка прав отмены рассылки """
-    if not is_owner(obj, user) or is_manager(user) or user.is_superuser:
+    if not (is_owner(obj, user) or is_manager(user)):
         raise PermissionDenied
 
 
