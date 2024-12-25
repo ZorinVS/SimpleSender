@@ -1,0 +1,34 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Список пользователей · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+{% block content %}
+
+<h1 class="mb-4 text-center">Попытки рассылки</h1>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+    <tr>
+        <th>Дата и время попытки</th>
+        <th>Статус попытки</th>
+        <th>Ответ почтового сервера</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in stat %}
+    <tr>
+        <td>
+            {{ row.attempt_datetime|date:"d M Y, H:i" }}
+        </td>
+        <td>
+            {{ row.status|capfirst }}
+        </td>
+        <td>
+            {{ row.server_response }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Список рассылок · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+{% block content %}
+
+<h1 class="mb-4 text-center">{% if perms.mailings.disable_mailing %}Рассылки{% else %}Мои рассылки{% endif %}</h1>
+
+<div class="d-flex justify-content-between mb-3 align-items-center">
+    <div>
+        <a href="{% url 'mailings:mailing_list' %}"
+           class="btn btn-outline-secondary {% if request.GET.status != 'active' or not request.GET.status %}active{% endif %}">
+            Все рассылки
+        </a>
+        <a href="{% url 'mailings:mailing_list' %}?status=active"
+           class="btn btn-outline-secondary {% if request.GET.status == 'active' %}active{% endif %}">
+            Активные рассылки
+        </a>
+    </div>
+    {% if not perms.mailings.disable_mailing %}<a href="{% url 'mailings:mailing_create' %}" class="btn btn-light">Добавить рассылку</a>{% endif %}
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+    <tr>
+        <th>Тема письма рассылки</th>
+        <th>Статус рассылки</th>
+        <th>Получатели рассылки</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not mailing_list %}
+    <tr>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+    </tr>
+    {% endif %}
+    {% for mailing in mailing_list %}
+    <tr>
+        <td>
+            <a href="{% url 'mailings:mailing_detail' mailing.pk %}" class="text-decoration-none text-reset">
+                {{ mailing.message.subject }}
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'mailings:mailing_detail' mailing.pk %}" class="text-decoration-none text-reset">
+                {{ mailing.get_status_display }}
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'mailings:mailing_detail' mailing.pk %}" class="text-decoration-none text-reset">
+                {% for client in mailing.clients.all %}
+                {{ client.email }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

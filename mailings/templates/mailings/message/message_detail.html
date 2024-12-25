@@ -1,0 +1,24 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}Просмотр сообщения · simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+{% block content %}
+<h1 class="mb-4">Просмотр сообщения</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <p class="card-text"><b>Тема:</b> {{ message.subject }}</p>
+        <p class="card-text">{{ message.body }}</p>
+    </div>
+    {% if not perms.mailings.view_all_messages %}
+    <div class="card-footer text-center d-flex justify-content-center gap-2">
+        <a href="{% url 'mailings:message_update' message.pk %}" class="btn btn-outline-secondary">Редактировать</a>
+        <a href="{% url 'mailings:message_delete' message.pk %}" class="btn btn-outline-danger">Удалить</a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="mt-4 text-center">
+    <a class="btn btn-outline-secondary" href="{% url 'mailings:message_list' %}">Вернуться к списку</a>
+</div>
+{% endblock %}

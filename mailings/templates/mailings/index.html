@@ -1,0 +1,52 @@
+{% extends "mailings/base.html" %}
+
+{% block title %}simpleSENDER{% endblock %}
+{% block header %}{% include "mailings/includes/inc_navbar.html" %}{% endblock %}
+{% block content %}
+
+
+{% if user.is_authenticated %}
+<h1 class="mb-4">Статистика рассылок</h1>
+
+{% if not mailings and not perms.mailings.disable_mailing %}
+<p>
+    Рассылки пока не созданы, хотите
+    <a href="{% url 'mailings:mailing_create' %}" class="text-reset">добавить рассылку</a>?
+</p>
+{% endif %}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <p class="card-text">
+            <a href="{% url 'mailings:mailing_list' %}" class="text-decoration-none text-reset"><b>Общее количество
+                рассылок: </b></a>
+            {{ total_mailings }}
+        </p>
+
+        <p class="card-text">
+            <a href="{% url 'mailings:mailing_list' %}?status=active" class="text-decoration-none text-reset"><b>Активные
+                рассылки: </b></a>
+            {{ active_mailings }}
+        </p>
+
+        <p class="card-text">
+            <a href="{% url 'mailings:client_list' %}" class="text-decoration-none text-reset"><b>Количество уникальных
+                получателей: </b></a>
+            {{ unique_recipients }}
+        </p>
+    </div>
+</div>
+{% else %}
+<div class="container text-center my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-3">Добро пожаловать в сервис!</h1>
+            <p class="mb-3">Войдите в систему или зарегистрируйтесь, чтобы начать</p>
+            <a href="{% url 'users:login' %}" class="btn btn-light">Войти</a>
+            <a href="{% url 'users:register' %}" class="btn btn-light">Зарегистрироваться</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

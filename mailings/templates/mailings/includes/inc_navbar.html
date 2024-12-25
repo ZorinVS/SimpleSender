@@ -1,0 +1,74 @@
+{% load static %}
+<!-- Навигационная панель -->
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+
+    <a href="{% url 'mailings:index_page' %}" class="text-decoration-none text-reset">
+        <h4 class="my-0 mr-md-auto font-weight-normal">simpleSENDER</h4>
+    </a>
+
+    <nav class="ms-5 d-flex w-100 justify-content-between">
+        <!-- Кнопки слева -->
+        {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'mailings:mailing_list' %}" class="p-2 btn btn-outline-dark">Рассылки</a>
+            <a href="{% url 'mailings:user_attempts' %}" class="p-2 btn btn-outline-dark">Попытки рассылок</a>
+        </div>
+        {% else %}
+        <!-- Текст для неавторизованных пользователей -->
+        <div class="d-flex align-items-center">
+            <p class="mb-0">Сервис управления рассылками, администрирования и получения статистики</p>
+        </div>
+        {% endif %}
+
+        <!-- Пользователь справа -->
+        <div class="dropdown ms-auto">
+
+            <button class="btn btn-link p-0 border-0 d-flex align-items-center" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none;">
+                <!-- Аватарка или стандартная иконка -->
+                {% if user.avatar %}
+                <!-- Аватарка пользователя -->
+                <img src="{{ user.avatar.url }}" alt="User avatar"
+                     style="width: 40px; height: 40px; cursor: pointer; border-radius: 50%; object-fit: cover;">
+                {% else %}
+                <!-- Стандартная иконка -->
+                <img src="{% static 'images/person-circle.svg' %}" alt="Person icon"
+                     style="width: 40px; height: 40px; cursor: pointer;">
+                {% endif %}
+                <!-- Почта пользователя -->
+                <span class="ms-2 text-body" style="cursor: pointer;">{{ user.email }}</span>
+            </button>
+
+            <!-- Выпадающее меню -->
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                {% if user.is_authenticated %}
+
+                {% if perms.users.block_user %}
+                <li><a class="dropdown-item" href="{% url 'users:user_list' %}">Пользователи сервиса</a></li>
+                <li><a class="dropdown-item" href="{% url 'mailings:message_list' %}">Сообщения</a></li>
+                <li><a class="dropdown-item" href="{% url 'mailings:client_list' %}">Клиенты</a></li>
+
+                {% else %}
+                <li><a class="dropdown-item" href="{% url 'mailings:message_list' %}">Мои сообщения</a></li>
+                <li><a class="dropdown-item" href="{% url 'mailings:client_list' %}">Мои клиенты</a></li>
+                {% endif %}
+
+                <hr class="dropdown-divider">
+
+                <li><a class="dropdown-item" href="{% url 'users:user_detail' user.pk %}">Профиль</a></li>
+                <li>
+                    <form method="post" action="{% url 'users:logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">Выйти</button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a class="dropdown-item" href="{% url 'users:login' %}">Вход</a></li>
+                <li><a class="dropdown-item" href="{% url 'users:register' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+
+
+        </div>
+    </nav>
+</div>

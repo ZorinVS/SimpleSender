@@ -1,0 +1,20 @@
+{% extends "mailings/base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Планирование рассылки</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.scheduled_time.label_tag }}
+        {{ form.scheduled_time }}
+        {% if form.scheduled_time.errors %}
+        <div class="text-danger">{{ form.scheduled_time.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-primary">Запланировать</button>
+        <a href="{% url 'mailings:mailing_detail' pk %}" class="btn btn-outline-secondary">Отмена</a>
+    </div>
+</form>
+{% endblock %}
